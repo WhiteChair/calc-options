@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#091019" />
+<title>Option Odds</title>
+<style>
+:root{--bg:#091019;--panel:#111a25;--panel2:#162231;--text:#f4f8fc;--muted:#8fa2b7;--line:#243447;--accent:#7d94ff;--good:#43d18e;--bad:#ff7373;--warn:#ffc95d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#142034 0,#091019 40%,#070c12 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{max-width:1120px;margin:auto;padding:18px}.hero{padding:10px 0 22px}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#aebde0}.hero h1{font-size:clamp(34px,8vw,62px);letter-spacing:-.055em;margin:6px 0 8px}.hero p{margin:0;max-width:760px;color:var(--muted);font-size:16px;line-height:1.55}.layout{display:grid;grid-template-columns:1.05fr .95fr;gap:16px}.card{background:rgba(17,26,37,.94);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 20px 70px rgba(0,0,0,.18)}h2{font-size:18px;margin:0 0 14px}.fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{display:block;color:#aebdd0;font-size:12px;margin:0 0 6px}input{width:100%;background:#0b121b;color:#fff;border:1px solid #2d4055;border-radius:12px;padding:12px 13px;font-size:15px;outline:none}input:focus{border-color:#6681ff}.wide{grid-column:1/-1}.instrument{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.pill{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px}.pill small{display:block;color:var(--muted);margin-bottom:4px}.pill strong{font-size:17px}.headline{margin-top:16px}.big{font-size:clamp(38px,9vw,64px);font-weight:800;letter-spacing:-.05em;margin:3px 0}.subline{color:var(--muted);line-height:1.5}.oddsline{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.tag{padding:7px 10px;border-radius:999px;background:#172234;border:1px solid #2d4055;color:#c9d5e5;font-size:12px}.good{color:var(--good)}.bad{color:var(--bad)}.warn{color:var(--warn)}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.metric{background:#0d151f;border:1px solid var(--line);border-radius:14px;padding:13px}.metric small{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}.metric b{font-size:19px}.section{margin-top:16px}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:14px}table{border-collapse:collapse;width:100%;min-width:760px;background:#0b121a}th,td{padding:11px 10px;border-bottom:1px solid #1d2a39;text-align:right;font-size:13px}th{color:#95a9bf;background:#111a25;position:sticky;top:0}th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:#0e1620}.cell-good{background:rgba(67,209,142,.11);color:#85e6b7}.cell-bad{background:rgba(255,115,115,.10);color:#ffabab}.cell-mid{background:rgba(255,201,93,.07);color:#ffdc91}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px}.footer{padding:24px 2px 6px;color:#71869b;font-size:11px}.kicker{color:#c1ccda;font-size:13px;margin-bottom:6px}.status{display:inline-flex;align-items:center;gap:7px;color:#b6c7db;font-size:12px;margin-top:12px}.dot{width:8px;height:8px;border-radius:99px;background:#7d94ff;box-shadow:0 0 16px #7d94ff}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.fieldgrid{grid-template-columns:1fr 1fr}.hero{padding-top:4px}.wrap{padding:14px}}
+@media(max-width:520px){.metrics{grid-template-columns:1fr 1fr}.instrument{grid-template-columns:1fr 1fr}.fieldgrid{grid-template-columns:1fr}.wide{grid-column:auto}.card{padding:15px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Warrants, translated</div>
+    <h1>Option Odds</h1>
+    <p>Forget Greek alphabet soup. See the price your underlying needs to reach, how time decay changes the trade, and the modelled odds of finishing profitable.</p>
+    <div class="status"><span class="dot"></span>MVP test case: Société Générale Moderna warrant</div>
+  </header>
+
+  <div class="layout">
+    <section class="card">
+      <h2>Your trade</h2>
+      <div class="fieldgrid">
+        <div class="wide"><label>ISIN</label><input id="isin" value="DE000FG1EVX4" readonly /></div>
+        <div><label>Price you pay (€)</label><input id="buyPrice" type="number" step="0.01" value="4.68" /></div>
+        <div><label>MRNA spot ($)</label><input id="spot" type="number" step="0.01" value="130.47" /></div>
+        <div><label>EUR/USD</label><input id="fx" type="number" step="0.001" value="1.17" /></div>
+        <div><label>Implied volatility</label><input id="iv" type="number" step="1" value="121" /></div>
+      </div>
+      <div class="note">Spot, FX and implied volatility are editable because this first MVP does not yet have a live market-data feed. The warrant metadata is fixed from the real-life test case.</div>
+    </section>
+
+    <section class="card">
+      <h2>Instrument</h2>
+      <div class="instrument">
+        <div class="pill"><small>Underlying</small><strong>Moderna (MRNA)</strong></div>
+        <div class="pill"><small>Issuer</small><strong>Société Générale</strong></div>
+        <div class="pill"><small>Strategy</small><strong>Call</strong></div>
+        <div class="pill"><small>Strike</small><strong>$90.00</strong></div>
+        <div class="pill"><small>Expiry</small><strong>18 Dec 2026</strong></div>
+        <div class="pill"><small>Ratio</small><strong>0.1</strong></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="card headline">
+    <div class="kicker">The question that matters</div>
+    <div class="subline">Estimated chance you finish profitable at expiry</div>
+    <div class="oddsline"><div id="profitOdds" class="big warn">—</div><span class="tag">model estimate, not a forecast</span></div>
+    <div class="metrics">
+      <div class="metric"><small>Break-even at expiry</small><b id="breakeven">—</b></div>
+      <div class="metric"><small>Move needed from today</small><b id="moveNeeded">—</b></div>
+      <div class="metric"><small>Chance expires worthless</small><b id="worthlessOdds">—</b></div>
+      <div class="metric"><small>Days to expiry</small><b id="daysLeft">—</b></div>
+      <div class="metric"><small>Intrinsic value today</small><b id="intrinsic">—</b></div>
+      <div class="metric"><small>Time value today</small><b id="timeValue">—</b></div>
+    </div>
+    <div class="note">Break-even accounts for the 0.1 ratio and EUR/USD: the €4.68 warrant price is not the same thing as $4.68 of option premium.</div>
+  </section>
+
+  <section class="card section">
+    <h2>Profit / loss map</h2>
+    <div class="subline">Rows are possible MRNA prices. Columns are time passing. Each cell shows estimated return on the warrant versus your purchase price.</div>
+    <div id="grid" class="tablewrap" style="margin-top:12px"></div>
+    <div class="note">Before expiry the grid uses a Black–Scholes style estimate with your volatility input. At expiry it uses the warrant payoff directly: ratio × max(MRNA − strike, 0), translated back to euros.</div>
+  </section>
+
+  <div class="footer">Educational calculator only. This MVP does not include transaction costs, issuer spread changes, dividends, early exercise features, barriers, quanto terms, taxes or live market data.</div>
+</div>
+
+<script>
+const META={strike:90,ratio:.1,expiry:'2026-12-18',r:.04};
+const $=id=>document.getElementById(id);
+function erf(x){const s=x<0?-1:1; x=Math.abs(x); const a1=.254829592,a2=-.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=.3275911; const t=1/(1+p*x); return s*(1-((((a5*t+a4)*t+a3)*t+a2)*t+a1)*t*Math.exp(-x*x));}
+function cdf(x){return .5*(1+erf(x/Math.sqrt(2)))}
+function bsCall(S,K,T,r,s){if(T<=0)return Math.max(S-K,0); if(s<=0)return Math.max(S-K*Math.exp(-r*T),0); const d1=(Math.log(S/K)+(r+.5*s*s)*T)/(s*Math.sqrt(T)); const d2=d1-s*Math.sqrt(T); return S*cdf(d1)-K*Math.exp(-r*T)*cdf(d2)}
+function probAbove(S,target,T,r,s){if(T<=0)return S>target?1:0; const z=(Math.log(S/target)+(r-.5*s*s)*T)/(s*Math.sqrt(T)); return cdf(z)}
+function fmtPct(v){return (v*100).toFixed(0)+'%'}
+function signedPct(v){return (v>=0?'+':'')+(v*100).toFixed(0)+'%'}
+function eur(v){return '€'+v.toFixed(2)}
+function usd(v){return '$'+v.toFixed(2)}
+function inputs(){return {buy:+$('buyPrice').value||0,spot:+$('spot').value||0,fx:+$('fx').value||1,iv:(+$('iv').value||0)/100}}
+function daysToExpiry(){const now=new Date(); const exp=new Date(META.expiry+'T21:00:00Z'); return Math.max(0,Math.ceil((exp-now)/86400000))}
+function render(){
+ const {buy,spot,fx,iv}=inputs(); const days=daysToExpiry(),T=days/365; const premiumPerShare=buy*fx/META.ratio; const be=META.strike+premiumPerShare;
+ const intrinsicUSD=Math.max(spot-META.strike,0)*META.ratio; const intrinsicEUR=intrinsicUSD/fx; const timeValue=Math.max(0,buy-intrinsicEUR);
+ const pProfit=probAbove(spot,be,T,META.r,iv); const pWorthless=1-probAbove(spot,META.strike,T,META.r,iv);
+ $('profitOdds').textContent=fmtPct(pProfit); $('breakeven').textContent=usd(be); $('moveNeeded').textContent=signedPct(be/spot-1); $('worthlessOdds').textContent=fmtPct(pWorthless); $('daysLeft').textContent=days; $('intrinsic').textContent=eur(intrinsicEUR); $('timeValue').textContent=eur(timeValue);
+ const timeDays=[days,Math.round(days*.75),Math.round(days*.5),Math.round(days*.25),0]; const levels=[90,110,130,be,150,175,200].filter((v,i,a)=>a.findIndex(x=>Math.abs(x-v)<1)<0).sort((a,b)=>a-b);
+ let h='<table><thead><tr><th>MRNA price</th>'+timeDays.map(d=>'<th>'+(d===0?'Expiry':d+' days left')+'</th>').join('')+'</tr></thead><tbody>';
+ for(const S of levels){h+='<tr><td>'+usd(S)+(Math.abs(S-be)<1?'<br><span style="color:#7d94ff">break-even</span>':'')+'</td>'; for(const d of timeDays){const opt=bsCall(S,META.strike,d/365,META.r,iv); const warrantEUR=opt*META.ratio/fx; const ret=buy>0?warrantEUR/buy-1:0; const cls=ret>.15?'cell-good':ret<-.15?'cell-bad':'cell-mid'; h+='<td class="'+cls+'">'+signedPct(ret)+'</td>';} h+='</tr>';} h+='</tbody></table>'; $('grid').innerHTML=h;
+}
+['buyPrice','spot','fx','iv'].forEach(id=>$(id).addEventListener('input',render)); render();
+</script>
+</body>
+</html>
